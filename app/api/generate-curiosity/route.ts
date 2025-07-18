@@ -38,15 +38,13 @@ export async function POST() {
       temperature: 0.75,
     })
 
-    if(completion){
-      const message = completion.choices[0]?.message;
-      const answer = message?.content ? message.content.trim() : "";
-      // Parse the JSON response
-      const curiosity = JSON.parse(answer)
-      
-      //Devolver el resultado generado
-      return NextResponse.json(curiosity)
-    }
+    const message = completion.choices[0].message;
+    const answer = message.content ? message.content.trim() : "";
+    // Parse the JSON response
+    const curiosity = JSON.parse(answer)
+    
+    //Devolver el resultado generado
+    return NextResponse.json(curiosity)
     
   } catch (error) {
     console.error("Error generating curiosity:", error)

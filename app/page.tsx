@@ -82,7 +82,10 @@ export default function CuriosityPage() {
     } catch (error) {
       // Si falla la ia la curiosidad sera una hardcodeada aleatoria
       const randomIndex = Math.floor(Math.random() * fallbackCuriosities.length)
-      setCurrentCuriosity(fallbackCuriosities[randomIndex])
+      const newCuriosity = fallbackCuriosities[randomIndex]
+      localStorage.setItem("lastCuriosity", JSON.stringify(newCuriosity))
+      localStorage.setItem("lastGenerated", new Date().toISOString())
+      setCurrentCuriosity(newCuriosity)
       setIsIA(false)
       
     } finally {
