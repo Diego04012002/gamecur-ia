@@ -271,7 +271,7 @@ export default function CuriosityPage() {
                   <div className="flex justify-center">
                     <Button
                       onClick={generateNewCuriosity}
-                      disabled={false}
+                      disabled={true}
                       // disabled={isLoading}
                       className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white xs:px-6 xs:text-xs font-gaming-subtitle md:px-8 py-3 rounded-xl md:text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
                     >
