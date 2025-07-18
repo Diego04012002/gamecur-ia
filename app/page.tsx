@@ -267,7 +267,7 @@ export default function CuriosityPage() {
                       onClick={generateNewCuriosity}
                       disabled={true}
                       // disabled={isLoading}
-                      className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-gaming-subtitle px-8 py-3 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
+                      className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white xs:px-6 xs:text-xs font-gaming-subtitle md:px-8 py-3 rounded-xl md:text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
                     >
                       <Zap className="w-5 h-5 mr-2" />
                       {true ? "Deshabilitado por el bien de mi cartera" : "Nueva Curiosidad IA"}
