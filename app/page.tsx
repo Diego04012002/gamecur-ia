@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Gamepad2, Zap, Star, Trophy, Cpu, Headphones, Palette, Building, Clock } from "lucide-react"
+import { Card } from "./components/ui/card"
+import { Button } from "./components/ui/button"
 
 interface Curiosity {
   title: string
@@ -38,8 +38,8 @@ const fallbackCuriosities: Curiosity[] = [
   },
 ]
 
-export default function Component() {
-  const [currentCuriosity, setCurrentCuriosity] = useState<Curiosity>(fallbackCuriosities[0])
+export default function CuriosityPage() {
+  const [currentCuriosity, setCurrentCuriosity] = useState<Curiosity>()
   const [isLoading, setIsLoading] = useState(false)
   const [lastGeneratedDay, setLastGeneratedDay] = useState<string | null>(null)
   const [timeUntilNext, setTimeUntilNext] = useState<TimeRemaining>({ hours: 0, minutes: 0, seconds: 0 })
@@ -219,45 +219,63 @@ export default function Component() {
         <main className="flex-1 flex items-center justify-center">
           <Card
             className={`max-w-4xl w-full bg-slate-800/50 backdrop-blur-lg border-slate-700 shadow-2xl transition-all duration-300 ${
-              isLoading ? "scale-95 opacity-50" : "scale-100 opacity-100"
+              isLoading || !currentCuriosity ? "scale-95 opacity-50" : "scale-100 opacity-100"
             }`}
           >
-            <div className="p-8 md:p-12">
-              {/* Category Header */}
-              <div className="flex items-center gap-2 mb-6">
-                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full border border-cyan-500/30">
-                  {getCategoryIcon(currentCuriosity.category)}
-                  <span className="text-cyan-300 font-gaming-subtitle font-medium">{currentCuriosity.category}</span>
+            {
+              !currentCuriosity || isLoading ? (
+                <div className="p-8 md:p-12 flex flex-col items-center justify-center h-96">
+                  <div className="relative w-24 h-24 mb-6">
+                    <div className="absolute inset-0 border-4 border-t-4 border-t-cyan-400 border-purple-500 rounded-full animate-spin"></div>
+                    <div className="absolute inset-2 border-2 border-t-2 border-t-pink-400 border-yellow-500 rounded-full animate-spin-slow"></div>
+                    <Gamepad2 className="absolute inset-0 m-auto w-12 h-12 text-white animate-pulse-fast" />
+                  </div>
+                  <p className="text-white text-xl md:text-2xl font-gaming-title animate-pulse">
+                    Generando curiosidad...
+                  </p>
+                  <p className="text-slate-400 text-sm mt-2 font-gaming-content">
+                    Esto puede tardar unos segundos.
+                  </p>
                 </div>
-                <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full border border-green-500/30">
-                  <div className={`size-2 rounded-full animate-pulse${lastGeneratedDay ? " bg-green-500" : " bg-red-500"}`}></div>
-                  <span className="text-green-300 text-xs font-medium">{lastGeneratedDay ? "IA Generated" : "No IA Generated"}</span>
+              ) : (
+                <div className="p-8 md:p-12">
+                  {/* Category Header */}
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full border border-cyan-500/30">
+                      {currentCuriosity && getCategoryIcon(currentCuriosity.category)}
+                      <span className="text-cyan-300 font-gaming-subtitle font-medium">{currentCuriosity && currentCuriosity.category}</span>
+                    </div>
+                    <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full border border-green-500/30">
+                      <div className={`size-2 rounded-full animate-pulse${lastGeneratedDay ? " bg-green-500" : " bg-red-500"}`}></div>
+                      <span className="text-green-300 text-xs font-medium">{lastGeneratedDay ? "IA Generated" : "No IA Generated"}</span>
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h2 className="text-2xl md:text-4xl font-gaming-title text-white mb-6 leading-tight text-glow">
+                    {currentCuriosity && currentCuriosity.title}
+                  </h2>
+
+                  {/* Content */}
+                  <p className="text-slate-300 text-lg md:text-xl leading-relaxed mb-8 font-gaming-content">
+                    {currentCuriosity && currentCuriosity.content}
+                  </p>
+
+                  {/* Generar nueva curiosidad */}
+                  <div className="flex justify-center">
+                    <Button
+                      onClick={generateNewCuriosity}
+                      disabled={false}
+                      // disabled={isLoading}
+                      className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-gaming-subtitle px-8 py-3 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
+                    >
+                      <Zap className="w-5 h-5 mr-2" />
+                      {true ? "Deshabilitado por el bien de mi cartera" : "Nueva Curiosidad IA"}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-
-              {/* Title */}
-              <h2 className="text-2xl md:text-4xl font-gaming-title text-white mb-6 leading-tight text-glow">
-                {currentCuriosity.title}
-              </h2>
-
-              {/* Content */}
-              <p className="text-slate-300 text-lg md:text-xl leading-relaxed mb-8 font-gaming-content">
-                {currentCuriosity.content}
-              </p>
-
-              {/* Generar nueva curiosidad */}
-              <div className="flex justify-center">
-                <Button
-                  onClick={generateNewCuriosity}
-                  disabled={true}
-                  // disabled={isLoading}
-                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-gaming-subtitle px-8 py-3 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100"
-                >
-                  <Zap className="w-5 h-5 mr-2" />
-                  {true ? "Deshabilitado por el bien de mi cartera" : "Nueva Curiosidad IA"}
-                </Button>
-              </div>
-            </div>
+              )
+            }
           </Card>
         </main>
 

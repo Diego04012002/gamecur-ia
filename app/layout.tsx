@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../styles/globals.css"
 
 export const metadata: Metadata = {
   title: "GameCurious - Curiosidades Gaming IA",
   description: "Descubre datos fascinantes del mundo de los videojuegos generados por IA cada día",
+  icons: {
+    icon: "/video-game.png"
+  }
 }
 
 export default function RootLayout({
@@ -25,8 +28,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <link rel="icon" type="image/svg+xml" href="gampepad.svg" />
-      <body>{children}</body>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }
