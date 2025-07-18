@@ -40,6 +40,7 @@ const fallbackCuriosities: Curiosity[] = [
 
 export default function CuriosityPage() {
   const [currentCuriosity, setCurrentCuriosity] = useState<Curiosity>()
+  const [isIA ,setIsIA] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState(false)
   const [lastGeneratedDay, setLastGeneratedDay] = useState<string | null>(null)
   const [timeUntilNext, setTimeUntilNext] = useState<TimeRemaining>({ hours: 0, minutes: 0, seconds: 0 })
@@ -72,6 +73,7 @@ export default function CuriosityPage() {
 
       const newCuriosity: Curiosity = await response.json()
       setCurrentCuriosity(newCuriosity)
+      setIsIA(true)
 
       // Guardar en localStorage
       localStorage.setItem("lastCuriosity", JSON.stringify(newCuriosity))
@@ -81,6 +83,8 @@ export default function CuriosityPage() {
       // Si falla la ia la curiosidad sera una hardcodeada aleatoria
       const randomIndex = Math.floor(Math.random() * fallbackCuriosities.length)
       setCurrentCuriosity(fallbackCuriosities[randomIndex])
+      setIsIA(false)
+      
     } finally {
       setIsLoading(false)
     }
@@ -130,7 +134,6 @@ export default function CuriosityPage() {
     const countdownInterval = setInterval(() => {
       const timeRemaining = calculateTimeUntilMidnight()
       setTimeUntilNext(timeRemaining)
-
       if (timeRemaining.hours === 0 && timeRemaining.minutes === 0 && timeRemaining.seconds === 0) {
         generateNewCuriosity()
       }
@@ -247,7 +250,7 @@ export default function CuriosityPage() {
                     </div>
                     <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full border border-green-500/30">
                       <div className={`size-2 rounded-full animate-pulse${lastGeneratedDay ? " bg-green-500" : " bg-red-500"}`}></div>
-                      <span className="text-green-300 text-xs font-medium">{lastGeneratedDay ? "IA Generated" : "No IA Generated"}</span>
+                      <span className="text-green-300 text-xs font-medium">{isIA ? "IA Generated" : "No IA Generated"}</span>
                     </div>
                   </div>
 
