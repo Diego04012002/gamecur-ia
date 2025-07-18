@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Gaming Font Classes */
+.font-gaming-title {
+  font-family: "Orbitron", monospace;
+  font-weight: 700;
+}
+
+.font-gaming-subtitle {
+  font-family: "Exo 2", sans-serif;
+  font-weight: 600;
+}
+
+.font-gaming-content {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.font-gaming-retro {
+  font-family: "Press Start 2P", monospace;
+}
+
+.font-gaming-terminal {
+  font-family: "VT323", monospace;
+}
+
+.font-gaming-wide {
+  font-family: "Audiowide", cursive;
+}
+
+/* Text effects for gaming aesthetic */
+.text-glow {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+}
+
+.text-pixel {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
