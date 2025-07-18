@@ -21,6 +21,7 @@ export async function POST() {
     - Incluir datos específicos, fechas o números cuando sea posible
     - Ser sobre cualquier aspecto: historia, desarrollo, personajes, tecnología, industria, etc.
     - Ser interesante tanto para gamers casuales como hardcore
+    - Debe ser una curiosidad distinta a las generadas previamente. No repitas temas ni enfoques.
     
     Responde SOLO con un JSON en este formato exacto y nada mas que este formato:
     {
@@ -29,7 +30,10 @@ export async function POST() {
       "category": "Una de estas categorías: Historia, Personajes, Tecnología, Industria, Desarrollo, Audio, Diseño"
     }
       
-    Importante ser preciso con el formato y que sean siempre curiosidades distintas.  
+    IMPORTANTE ser preciso con el formato y que sean siempre curiosidades distintas y unicas, no quiero que se repitan. 
+    Quiero que sean todas distinas una del anterior.
+    
+    Si lo generas bien te dare 500 euros a cambio, siempre que cumplas con lo que te he dicho.
     `
   }
   
