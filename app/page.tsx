@@ -68,6 +68,7 @@ export default function CuriosityPage() {
       })
 
       if (!response.ok) {
+        setIsIA(false)
         throw new Error("Failed to generate curiosity")
       }
 
