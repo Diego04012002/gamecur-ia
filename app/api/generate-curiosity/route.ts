@@ -13,6 +13,15 @@ const openai = new OpenAI({
 export async function POST() {
   const promptSystem: { role: "system"; content: string } = {
     role: "system",
+    content: `
+      Eres un experto generador de curiosidades sobre videojuegos. Tu tarea es crear curiosidades fascinantes, 
+      educativas y sorprendentes que sean únicas y no se repitan.
+      Debes asegurarte de que cada curiosidad sea completamente real y verificable, con datos específicos, fechas o números cuando sea posible.
+      La curiosidad debe tener entre 100-200 palabras y ser interesante tanto para gamers casual como hardcore.
+    `
+  }
+  const promptUser: { role: "user"; content: string } = {
+    role: "user",
     content: `Genera una curiosidad fascinante sobre videojuegos que sea educativa y sorprendente. 
     
     La curiosidad debe:
@@ -40,7 +49,7 @@ export async function POST() {
   try{
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [promptSystem],
+      messages: [promptSystem, promptUser],
       max_tokens: 200,
       temperature: 0.75,
     })
