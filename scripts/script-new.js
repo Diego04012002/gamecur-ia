@@ -48,7 +48,7 @@ async function generateCuriosity() {
   const response =await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${openApiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
