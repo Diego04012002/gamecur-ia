@@ -71,7 +71,7 @@ async function generateCuriosity() {
 }
 
 async function insert() {
-  const content = await generateCuriosity();
+  const data = await generateCuriosity();
   console.log("Generated content:", content);
   try {
     const res = await fetch(`${supabaseUrl}/rest/v1/curiosities`, {
@@ -82,7 +82,11 @@ async function insert() {
         "Content-Type": "application/json",
         Prefer: "resolution=merge-duplicates",
       },
-      body: content,
+      body: JSON.stringify({
+        title: data.title,
+        content: data.content,
+        category: data.category
+      }),
     });
     console.log("✅ Exito");
   } catch (err) {
