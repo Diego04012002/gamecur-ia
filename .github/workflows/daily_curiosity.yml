@@ -3,7 +3,7 @@ name: Generate Daily Gaming Curiosity
 on:
   schedule:
     # Ejecutar cada 10 minutos (puedes cambiarlo a una hora concreta si prefieres)
-    - cron: '*/10 * * * *'
+    - cron: '*/0 * * * *'
   
   # Permitir ejecución manual desde GitHub UI
   workflow_dispatch:
@@ -32,5 +32,4 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
         run: |
-          echo "URL Supabase: $SUPABASE_URL"
           node scripts/script-new.js
