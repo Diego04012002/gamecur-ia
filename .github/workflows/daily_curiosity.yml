@@ -23,8 +23,11 @@ jobs:
           cache: "npm"
 
       - name: Instalar dependencias
-        run: npm install --legacy-peer-deps
+        run: npm install supabase --legacy-peer-deps
 
       - name: Generate New Curiosity
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY_SUPABASE }}
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_URL_SUPABASE }}
         run: |
           node scripts/script-new.js
