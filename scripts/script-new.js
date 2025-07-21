@@ -1,5 +1,7 @@
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+const https = require('https')
+const http = require('http')
 
 function makeRequest(url, options = {}, data = null) {
   return new Promise((resolve, reject) => {
@@ -49,8 +51,8 @@ async function main() {
       {
         method: "POST",
         headers: {
-          apikey: SUPABASE_SERVICE_KEY,
-          Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
           "Content-Type": "application/json",
           Prefer: "return=representation",
         },
