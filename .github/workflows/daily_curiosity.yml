@@ -30,4 +30,5 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY_SUPABASE }}
           SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_URL_SUPABASE }}
         run: |
+          echo "${{ secrets.NEXT_PUBLIC_URL_SUPABASE }}"
           node scripts/script-new.js
