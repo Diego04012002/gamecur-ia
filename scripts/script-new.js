@@ -15,7 +15,7 @@ async function insert(){
       "Content-Type": "application/json",
       "Prefer": "resolution=merge-duplicates"
     },
-    body: JSON.stringify(content)
+    body: content
   })
 }
 
