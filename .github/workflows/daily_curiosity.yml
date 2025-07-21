@@ -10,6 +10,9 @@ on:
 
 jobs:
   generate-curiosity:
+  deploy:
+    environment: production
+
     runs-on: ubuntu-latest
     
     steps:
