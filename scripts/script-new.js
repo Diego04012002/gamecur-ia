@@ -39,7 +39,7 @@ async function generateCuriosity() {
     
     La curiosidad debe:
     - Ser completamente real y verificable
-    - Tener entre 100-200 palabras
+    - Tener entre 50-100 palabras
     - Incluir datos específicos, fechas o números cuando sea posible
     - Ser sobre cualquier aspecto: historia, desarrollo, personajes, tecnología, industria, etc.
     - Ser interesante tanto para gamers casuales como hardcore
@@ -69,7 +69,7 @@ async function generateCuriosity() {
 
 async function insert() {
   let data = await generateCuriosity();
-  console.log("Generated content:", JSON.parse(data));
+  console.log("Generated content:", data);
   data= JSON.parse(data);
   try {
     const res = await fetch(`${supabaseUrl}/rest/v1/curiosities`, {
