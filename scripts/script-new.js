@@ -59,6 +59,7 @@ async function main() {
       },
       content
     );
+    console.log("Respuesta de Supabase:", response);
     if (response.status !== 201) {
       throw new Error(
         `Error insertando en Supabase: ${response.status} ${JSON.stringify(
