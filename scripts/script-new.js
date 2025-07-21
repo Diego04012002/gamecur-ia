@@ -72,7 +72,7 @@ async function generateCuriosity() {
 
 async function insert() {
   const data = await generateCuriosity();
-  console.log("Generated content:", content);
+  console.log("Generated content:", data);
   try {
     const res = await fetch(`${supabaseUrl}/rest/v1/curiosities`, {
       method: "POST",
