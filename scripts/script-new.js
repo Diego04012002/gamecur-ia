@@ -17,7 +17,7 @@ async function generateCuriosity() {
       Eres un experto generador de curiosidades sobre videojuegos. Tu tarea es crear curiosidades fascinantes, 
       educativas y sorprendentes que sean únicas y no se repitan.
       Debes asegurarte de que cada curiosidad sea completamente real y verificable, con datos específicos, fechas o números cuando sea posible.
-      La curiosidad debe tener entre 100-200 palabras y ser interesante tanto para gamers casual como hardcore.
+      La curiosidad debe tener entre 50-100 palabras y ser interesante tanto para gamers casual como hardcore.
 
       Responde SOLO con un JSON en este formato exacto y nada mas que este formato:
       {
