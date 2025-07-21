@@ -2,7 +2,7 @@ name: Generate Daily Gaming Curiosity
 
 on:
   schedule:
-    # Ejecutar todos los días a las 6:00 AM UTC (2:00 AM EST, 8:00 AM CET)
+    # Ejecutar cada 10 minutos (puedes cambiarlo a una hora concreta si prefieres)
     - cron: '*/10 * * * *'
   
   # Permitir ejecución manual desde GitHub UI
@@ -10,8 +10,6 @@ on:
 
 jobs:
   generate-curiosity:
-  deploy:
-    environment: GAMECUR-AI
     runs-on: ubuntu-latest
 
     steps:
@@ -27,10 +25,10 @@ jobs:
       - name: Instalar dependencias
         run: npm install --legacy-peer-deps
 
-      - name: Generate New Curiosity
+      - name: Generar nueva curiosidad
         env:
           SUPABASE_SERVICE_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY_SUPABASE }}
           SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_URL_SUPABASE }}
         run: |
-          echo "${{ secrets.NEXT_PUBLIC_URL_SUPABASE }}"
+          echo "URL Supabase: $SUPABASE_URL"
           node scripts/script-new.js
