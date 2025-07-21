@@ -8,9 +8,11 @@ import { supabase } from "../supabase/connection"
 
 
 interface Curiosity {
+  id:number
   title: string
   content: string
   category: string
+  created_at: Date
 }
 
 interface TimeRemaining {
@@ -21,22 +23,28 @@ interface TimeRemaining {
 
 const fallbackCuriosities: Curiosity[] = [
   {
+    id: 1,
     title: "El primer Easter Egg de la historia",
     content:
       "El primer Easter Egg en un videojuego fue creado por Warren Robinett en 'Adventure' (1979) para Atari 2600. Lo hizo porque Atari no acreditaba a sus programadores, así que escondió su nombre en una habitación secreta del juego.",
     category: "Historia",
+    created_at: new Date("2023-10-01T00:00:00Z"),
   },
   {
+    id: 2,
     title: "Mario tenía otro nombre",
     content:
       "Mario originalmente se llamaba 'Jumpman' en el juego Donkey Kong (1981). Su nombre cambió a Mario en honor a Mario Segale, el propietario del almacén que Nintendo rentaba en Estados Unidos.",
     category: "Personajes",
+    created_at: new Date("2023-10-01T00:00:00Z"),
   },
   {
+    id: 3,
     title: "El sonido más caro de la historia",
     content:
       "El sonido de 'SEGA' al inicio de los juegos de Sonic costó $500,000 dólares de producción. Fue grabado por un coro completo y procesado digitalmente para que cupiera en la memoria limitada de la consola.",
     category: "Audio",
+    created_at: new Date("2023-10-01T00:00:00Z"),
   },
 ]
 
@@ -46,6 +54,11 @@ export default function CuriosityPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [lastGeneratedDay, setLastGeneratedDay] = useState<string | null>(null)
   const [timeUntilNext, setTimeUntilNext] = useState<TimeRemaining>({ hours: 0, minutes: 0, seconds: 0 })
+
+  useEffect(() => {
+    startTimer()
+    generateNewCuriosity()
+  }, [])
 
   const calculateTimeUntilMidnight = (): TimeRemaining => {
     const now = new Date()
@@ -63,7 +76,7 @@ export default function CuriosityPage() {
   }
 
   const startTimer = () => {
-    const countdownInterval = setInterval(() => {
+    const countdownInterval = setInterval(async () => {
       const timeRemaining = calculateTimeUntilMidnight()
       setTimeUntilNext(timeRemaining)
       if (timeRemaining.hours === 0 && timeRemaining.minutes === 0 && timeRemaining.seconds === 0) {
@@ -73,20 +86,39 @@ export default function CuriosityPage() {
   }
 
   const generateNewCuriosity = async () => {
-    startTimer()
+    
     setTimeUntilNext(calculateTimeUntilMidnight())
     setIsLoading(true)
     try {
+      //fetch inicial para sacar la ultima curiosidad generada
        const response = await supabase.from("curiosities").select("*").order("created_at", { ascending: false }).limit(1).single()
       if (response.status !== 200) {
         setIsIA(false)
         throw new Error("Failed to generate curiosity")
       }
-      
+
       const newCuriosity: Curiosity = response.data as Curiosity
       setCurrentCuriosity(newCuriosity)
       setIsIA(true)
       setLastGeneratedDay(new Date().toISOString())
+
+      // Un listener que cuando se inserte una nueva curiosidad, actualiza el estado de currentCuriosity
+      const channel = supabase
+      .channel("curiosities-changes")
+      .on<Curiosity>(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "curiosities",
+        },
+        async (payload) => {
+          setCurrentCuriosity(payload.new);
+        }
+      )
+      .subscribe();
+      
+      
     } catch (error) {
       // Si falla la ia la curiosidad sera una hardcodeada aleatoria
       const randomIndex = Math.floor(Math.random() * fallbackCuriosities.length)
@@ -122,9 +154,7 @@ export default function CuriosityPage() {
     }
   }
 
-   useEffect(() => {
-    generateNewCuriosity()
-  }, [])
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
