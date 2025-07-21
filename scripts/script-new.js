@@ -8,7 +8,7 @@ async function insert(){
     "content" : "Prueaba desde script"
   }
   
-  await fetch(`${supabaseUrl}/rest/v1/curiosities`, {
+  await fetch(`${supabaseUrl}/rest/v1/test`, {
     method: "POST",
     headers: {
       "apikey": supabaseKey,
