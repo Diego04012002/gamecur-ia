@@ -74,7 +74,7 @@ async function insert() {
   const content = await generateCuriosity();
   console.log("Generated content:", content);
   try {
-    const res = await fetch(`${supabaseUrl}/rest/v1/test`, {
+    const res = await fetch(`${supabaseUrl}/rest/v1/curiosities`, {
       method: "POST",
       headers: {
         apikey: supabaseKey,

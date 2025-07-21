@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { Gamepad2, Zap, Star, Trophy, Cpu, Headphones, Palette, Building, Clock } from "lucide-react"
 import { Card } from "./components/ui/card"
 import { Button } from "./components/ui/button"
+import { supabase } from "../supabase/connection"
+
 
 interface Curiosity {
   title: string
@@ -63,25 +65,19 @@ export default function CuriosityPage() {
   const generateNewCuriosity = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/generate-curiosity", {
-        method: "POST",
-      })
-
-      if (!response.ok) {
+      const response = await supabase.from("curiosities").select("*").order("created_at", { ascending: false }).limit(1).single()
+      if (response.status !== 200) {
         setIsIA(false)
         throw new Error("Failed to generate curiosity")
       }
-
-      const newCuriosity: Curiosity = await response.json()
+      
+      const newCuriosity: Curiosity = response.data as Curiosity
       setCurrentCuriosity(newCuriosity)
       setIsIA(true)
 
-      // Guardar en localStorage
-      localStorage.setItem("lastCuriosity", JSON.stringify(newCuriosity))
-      localStorage.setItem("lastGenerated", new Date().toISOString())
       setLastGeneratedDay(new Date().toISOString())
     } catch (error) {
-      // Si falla la ia la curiosidad sera una hardcodeada aleatoria
+      // Si falla la bd la curiosidad sera una hardcodeada aleatoria
       const randomIndex = Math.floor(Math.random() * fallbackCuriosities.length)
       const newCuriosity = fallbackCuriosities[randomIndex]
       localStorage.setItem("lastCuriosity", JSON.stringify(newCuriosity))
@@ -133,21 +129,7 @@ export default function CuriosityPage() {
   }
 
    useEffect(() => {
-    checkDailyCuriosity()
-
-    const countdownInterval = setInterval(() => {
-      const timeRemaining = calculateTimeUntilMidnight()
-      setTimeUntilNext(timeRemaining)
-      if (timeRemaining.hours === 0 && timeRemaining.minutes === 0 && timeRemaining.seconds === 0) {
-        generateNewCuriosity()
-      }
-    }, 1000)
-
-    setTimeUntilNext(calculateTimeUntilMidnight())
-
-    return () => {
-      clearInterval(countdownInterval)
-    }
+    generateNewCuriosity()
   }, [])
 
   return (
@@ -238,7 +220,7 @@ export default function CuriosityPage() {
                     <Gamepad2 className="absolute inset-0 m-auto w-12 h-12 text-white animate-pulse-fast" />
                   </div>
                   <p className="text-white text-xl md:text-2xl font-gaming-title animate-pulse">
-                    Generando curiosidad...
+                    Cargando curiosidad...
                   </p>
                   <p className="text-slate-400 text-sm mt-2 font-gaming-content">
                     Esto puede tardar unos segundos.
