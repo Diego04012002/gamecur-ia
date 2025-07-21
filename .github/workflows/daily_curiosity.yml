@@ -23,7 +23,7 @@ jobs:
           cache: "npm"
 
       - name: Instalar dependencias
-        run: npm install supabase --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Generate New Curiosity
         env:
