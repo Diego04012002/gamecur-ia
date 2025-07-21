@@ -8,7 +8,7 @@ async function insert(){
     "content" : "Prueaba desde script"
   }
   
-  await fetch(`${supabaseUrl}/rest/v1/test`, {
+   const data = await fetch(`${supabaseUrl}/rest/v1/test`, {
     method: "POST",
     headers: {
       "apikey": supabaseKey,
@@ -17,6 +17,7 @@ async function insert(){
     },
     body: content
   })
+  console.log(data.json())
 }
 
 console.log("Inserting data into Supabase...");
