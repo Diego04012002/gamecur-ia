@@ -18,8 +18,14 @@ async function generateCuriosity() {
       educativas y sorprendentes que sean únicas y no se repitan.
       Debes asegurarte de que cada curiosidad sea completamente real y verificable, con datos específicos, fechas o números cuando sea posible.
       La curiosidad debe tener entre 100-200 palabras y ser interesante tanto para gamers casual como hardcore.
-    `
-  }
+      Responde SOLO con un JSON en este formato exacto y nada mas que este formato:
+      {
+        "title": "Título llamativo de la curiosidad",
+        "content": "Contenido detallado de la curiosidad con datos específicos",
+        "category": "Una de estas categorías: Historia, Personajes, Tecnología, Industria, Desarrollo, Audio, Diseño"
+      }
+    `,
+  };
   const promptUser = {
     role: "user",
     content: `Genera una curiosidad fascinante sobre videojuegos que sea educativa y sorprendente. 
@@ -43,9 +49,9 @@ async function generateCuriosity() {
     Quiero que sean todas distinas una del anterior.
     
     Si lo generas bien te dare 500 euros a cambio, siempre que cumplas con lo que te he dicho.
-    `
-  }
-  const response =await fetch("https://api.openai.com/v1/chat/completions", {
+    `,
+  };
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${openApiKey}`,
@@ -53,10 +59,10 @@ async function generateCuriosity() {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      messages:[promptSystem, promptUser],
+      messages: [promptSystem, promptUser],
       max_tokens: 200,
       temperature: 0.75,
-    })
+    }),
   });
 
   const data = await response.json();
@@ -67,7 +73,6 @@ async function generateCuriosity() {
 async function insert() {
   const content = await generateCuriosity();
   console.log("Generated content:", content);
-
   try {
     const res = await fetch(`${supabaseUrl}/rest/v1/test`, {
       method: "POST",
@@ -77,7 +82,7 @@ async function insert() {
         "Content-Type": "application/json",
         Prefer: "resolution=merge-duplicates",
       },
-      body: JSON.stringify(content),
+      body: content,
     });
     console.log("✅ Exito");
   } catch (err) {
