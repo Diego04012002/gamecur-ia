@@ -13,36 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm install --legacy-peer-deps
+
       - name: Generate New Curiosity
         run: |
-          echo "🎮 Generating daily gaming curiosity..."
-          
-          # Hacer llamada a la API para generar nueva curiosidad
-          response=$(curl -s -w "%{http_code}" -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.CRON_API_KEY }}" \
-            "${{ secrets.APP_URL }}/api/generate-curiosity")
-          
-          http_code="${response: -3}"
-          response_body="${response%???}"
-          
-          if [ "$http_code" -eq 200 ]; then
-            echo "✅ Curiosity generated successfully!"
-            echo "Response: $response_body"
-          else
-            echo "❌ Failed to generate curiosity. HTTP Code: $http_code"
-            echo "Response: $response_body"
-            exit 1
-          fi
-
-      - name: Notify Success
-        if: success()
-        run: |
-          echo "🎉 Daily curiosity generation completed successfully!"
-          echo "Next curiosity will be generated tomorrow at 6:00 AM UTC"
-
-      - name: Notify Failure
-        if: failure()
-        run: |
-          echo "💥 Daily curiosity generation failed!"
-          echo "Please check the logs and API configuration"
+          node scripts/script-new.js
