@@ -18,12 +18,19 @@ async function generateCuriosity() {
       educativas y sorprendentes que sean únicas y no se repitan.
       Debes asegurarte de que cada curiosidad sea completamente real y verificable, con datos específicos, fechas o números cuando sea posible.
       La curiosidad debe tener entre 100-200 palabras y ser interesante tanto para gamers casual como hardcore.
+
       Responde SOLO con un JSON en este formato exacto y nada mas que este formato:
       {
         "title": "Título llamativo de la curiosidad",
         "content": "Contenido detallado de la curiosidad con datos específicos",
         "category": "Una de estas categorías: Historia, Personajes, Tecnología, Industria, Desarrollo, Audio, Diseño"
       }
+        
+      IMPORTANTE ser preciso con el formato que se te concreto antes y que sean siempre curiosidades distintas y unicas, no quiero que se repitan. 
+      Quiero que sean todas distinas una del anterior.
+      
+      Si lo generas bien te dare 500 euros a cambio, siempre que cumplas con lo que te he dicho.
+        
     `,
   };
   const promptUser = {
@@ -38,17 +45,7 @@ async function generateCuriosity() {
     - Ser interesante tanto para gamers casuales como hardcore
     - Debe ser una curiosidad distinta a las generadas previamente. No repitas temas ni enfoques.
     
-    Responde SOLO con un JSON en este formato exacto y nada mas que este formato:
-    {
-      "title": "Título llamativo de la curiosidad",
-      "content": "Contenido detallado de la curiosidad con datos específicos",
-      "category": "Una de estas categorías: Historia, Personajes, Tecnología, Industria, Desarrollo, Audio, Diseño"
-    }
-      
-    IMPORTANTE ser preciso con el formato y que sean siempre curiosidades distintas y unicas, no quiero que se repitan. 
-    Quiero que sean todas distinas una del anterior.
     
-    Si lo generas bien te dare 500 euros a cambio, siempre que cumplas con lo que te he dicho.
     `,
   };
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -58,7 +55,7 @@ async function generateCuriosity() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [promptSystem, promptUser],
       max_tokens: 200,
       temperature: 0.75,
