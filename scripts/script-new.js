@@ -10,7 +10,7 @@ if (!supabaseUrl || !supabaseKey) {
 
 async function insert() {
   const content = {
-    content: "Prueba desde script",
+    content: "Prueba desde script"
   };
 
   try {
@@ -22,11 +22,9 @@ async function insert() {
         "Content-Type": "application/json",
         Prefer: "resolution=merge-duplicates",
       },
-      body: JSON.stringify(content),
+      body: JSON.stringify(content)
     });
-
-    const json = await res.json();
-    console.log("✅ Supabase response:", json);
+    console.log("✅ Exito");
   } catch (err) {
     console.error("❌ Error inserting into Supabase:", err);
   }
