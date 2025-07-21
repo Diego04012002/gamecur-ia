@@ -1,5 +1,5 @@
-const supabaseUrl = process.env.NEXT_PUBLIC_URL_SUPABASE
-const supabaseKey = process.env.NEXT_PUBLIC_API_KEY_SUPABASE
+const supabaseUrl = process.env.SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY
 
 async function insert(){
   const content={
