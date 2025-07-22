@@ -2,8 +2,7 @@ name: Generate Daily Gaming Curiosity
 
 on:
   schedule:
-    # Ejecutar cada 10 minutos (puedes cambiarlo a una hora concreta si prefieres)
-    - cron: '0 0 * * *'
+    - cron: '0 * * * *'  # Ejecuta cada hora en punto
 
   
   # Permitir ejecución manual desde GitHub UI

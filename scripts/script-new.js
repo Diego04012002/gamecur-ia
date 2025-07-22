@@ -1,6 +1,19 @@
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 const openApiKey = process.env.OPENAI_API_KEY;
+const now = new Date();
+const spainOffset = 120; // minutos (UTC+2)
+const utcOffset = now.getTimezoneOffset(); // en minutos
+
+// Ajustamos la hora local a España (aunque el CI corra en UTC)
+const spainDate = new Date(now.getTime() + (spainOffset + utcOffset) * 60000);
+const isMidnightSpain = spainDate.getHours() === 0 && spainDate.getMinutes() === 0;
+
+
+if (!isMidnightSpain) {
+  console.log("❌ No es medianoche en España, abortando inserción.");
+  process.exit(1);
+}
 
 if (!supabaseUrl || !supabaseKey || !openApiKey) {
   console.error("❌ Supabase env vars missing:");
