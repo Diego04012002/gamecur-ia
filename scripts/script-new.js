@@ -10,17 +10,12 @@ const spainDate = new Date(now.getTime() + (spainOffset + utcOffset) * 60000);
 const isMidnightSpain = spainDate.getHours() === 0 && spainDate.getMinutes() === 0;
 
 
-if (!isMidnightSpain) {
-  console.log("❌ No es medianoche en España, abortando inserción.");
-  process.exit(1);
-}
 
 if (!supabaseUrl || !supabaseKey || !openApiKey) {
   console.error("❌ Supabase env vars missing:");
   console.log("SUPABASE_URL:", supabaseUrl);
   console.log("SUPABASE_SERVICE_KEY:", supabaseKey);
   console.log("OPENAI_API_KEY:", openApiKey);
-  process.exit(1);
 }
 
 async function generateCuriosity() {
@@ -110,5 +105,11 @@ async function main() {
   await insert();
   console.log("✅ Data inserted successfully!");
 }
-console.log("Inserting data into Supabase...");
-main();
+
+
+if (!isMidnightSpain) {
+  console.log("❌ No es medianoche en España, abortando inserción.");
+}else{
+  console.log("Inserting data into Supabase...");
+  main();
+}
