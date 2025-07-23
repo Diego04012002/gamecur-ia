@@ -99,8 +99,9 @@ export default function CuriosityPage() {
 
       const newCuriosity: Curiosity = response.data as Curiosity
       setCurrentCuriosity(newCuriosity)
+      setLastGeneratedDay(new Date(newCuriosity.created_at).toLocaleDateString("es-ES"))
+
       setIsIA(true)
-      setLastGeneratedDay(new Date().toISOString())
 
       // Un listener que cuando se inserte una nueva curiosidad, actualiza el estado de currentCuriosity
       const channel = supabase
@@ -194,7 +195,7 @@ export default function CuriosityPage() {
           </p>
           {lastGeneratedDay && (
             <p className="text-slate-400 text-sm mt-2">
-              Última actualización: {new Date(lastGeneratedDay).toLocaleDateString("es-ES")}
+              Última actualización: {lastGeneratedDay}
             </p>
           )}
         </header>
@@ -259,7 +260,7 @@ export default function CuriosityPage() {
                       <span className="text-cyan-300 font-gaming-subtitle font-medium">{currentCuriosity && currentCuriosity.category}</span>
                     </div>
                     <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full border border-green-500/30">
-                      <div className={`size-2 rounded-full animate-pulse${lastGeneratedDay ? " bg-green-500" : " bg-red-500"}`}></div>
+                      <div className={`size-2 rounded-full animate-pulse${isIA ? " bg-green-500" : " bg-red-500"}`}></div>
                       <span className="text-green-300 text-xs font-medium">{isIA ? "IA Generated" : "No IA Generated"}</span>
                     </div>
                   </div>
